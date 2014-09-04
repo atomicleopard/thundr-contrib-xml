@@ -1,7 +1,8 @@
 /*
- * This file is a component of thundr, a software library from 3wks.
- * Read more: http://www.3wks.com.au/thundr
- * Copyright (C) 2013 3wks, <thundr@3wks.com.au>
+ * This file is a community contributed library for use with thundr.
+ * Read more: http://3wks.github.io/thundr/
+ *
+ * Copyright (C) 2014 Atomic Leopard, <nick@atomicleopard.com.au>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
