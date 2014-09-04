@@ -1,6 +1,5 @@
 package com.atomicleopard.thundr.xml.view;
 
-import static com.atomicleopard.expressive.Expressive.map;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -17,9 +16,6 @@ import org.junit.rules.ExpectedException;
 
 import com.atomicleopard.thundr.xml.jaxb.Jaxb;
 import com.atomicleopard.thundr.xml.jaxb.test.XmlPojo;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.threewks.thundr.http.Cookies;
 import com.threewks.thundr.test.mock.servlet.MockHttpServletRequest;
 import com.threewks.thundr.test.mock.servlet.MockHttpServletResponse;
@@ -27,7 +23,8 @@ import com.threewks.thundr.view.ViewResolutionException;
 
 public class JaxbViewResolverTest {
 
-	@Rule public ExpectedException thrown = ExpectedException.none();
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
 	private MockHttpServletRequest req = new MockHttpServletRequest();
 	private MockHttpServletResponse resp = new MockHttpServletResponse();
@@ -42,9 +39,7 @@ public class JaxbViewResolverTest {
 		assertThat(resp.status(), is(HttpServletResponse.SC_OK));
 		assertThat(resp.content(), is("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><xmlPojo><amount>98.76</amount><id>id</id><name>name</name></xmlPojo>"));
 		assertThat(resp.getCharacterEncoding(), is("UTF-8"));
-		assertThat(resp.getContentLength(), is(15));
 	}
-
 
 	@Test
 	public void shouldThrowViewResolutionExceptionWhenFailedToWriteXmlToOutputStream() throws IOException {
@@ -82,15 +77,9 @@ public class JaxbViewResolverTest {
 		assertThat(resp.getCookies(), hasItem(cookie));
 	}
 
-	private JsonElement createJsonElement() {
-		Gson gson = new GsonBuilder().create();
-		return gson.fromJson("{\"key\":\"value\"}", JsonElement.class);
-	}
-
 	@Test
 	public void shouldAllowAccessToInternalJaxb() {
 		assertThat(resolver.getJaxb(), is(jaxb));
 	}
-	
-	
+
 }

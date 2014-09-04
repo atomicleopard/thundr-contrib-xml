@@ -1,17 +1,17 @@
 package com.atomicleopard.thundr.xml;
 
-import javax.swing.text.AbstractDocument.Content;
-
 import com.atomicleopard.thundr.xml.bind.JaxbBinder;
 import com.atomicleopard.thundr.xml.jaxb.Jaxb;
 import com.atomicleopard.thundr.xml.view.JaxbViewResolver;
 import com.atomicleopard.thundr.xml.view.XmlNegotiator;
 import com.atomicleopard.thundr.xml.view.XmlView;
-import com.threewks.thundr.action.method.bind.ActionMethodBinderRegistry;
+import com.threewks.thundr.bind.BinderModule;
+import com.threewks.thundr.bind.BinderRegistry;
 import com.threewks.thundr.http.ContentType;
-import com.threewks.thundr.injection.InjectionContext;
+import com.threewks.thundr.injection.BaseModule;
 import com.threewks.thundr.injection.UpdatableInjectionContext;
 import com.threewks.thundr.module.DependencyRegistry;
+import com.threewks.thundr.view.ViewModule;
 import com.threewks.thundr.view.ViewResolverRegistry;
 import com.threewks.thundr.view.negotiating.ViewNegotiatorRegistry;
 
@@ -36,13 +36,13 @@ import com.threewks.thundr.view.negotiating.ViewNegotiatorRegistry;
  * </ul>
  * 
  */
-public class ThundrContribXmlModule implements com.threewks.thundr.injection.Module {
-	@Override
-	public void requires(DependencyRegistry dependencyRegistry) {
-	}
+public class XmlContribModule extends BaseModule {
 
 	@Override
-	public void initialise(UpdatableInjectionContext injectionContext) {
+	public void requires(DependencyRegistry dependencyRegistry) {
+		super.requires(dependencyRegistry);
+		dependencyRegistry.addDependency(BinderModule.class);
+		dependencyRegistry.addDependency(ViewModule.class);
 	}
 
 	@Override
@@ -52,8 +52,8 @@ public class ThundrContribXmlModule implements com.threewks.thundr.injection.Mod
 		JaxbViewResolver viewResolver = new JaxbViewResolver(jaxb);
 		XmlNegotiator negotiator = new XmlNegotiator();
 
-		ActionMethodBinderRegistry actionMethodBinderRegistry = injectionContext.get(ActionMethodBinderRegistry.class);
-		actionMethodBinderRegistry.registerActionMethodBinder(jaxbBinder);
+		BinderRegistry binderRegistry = injectionContext.get(BinderRegistry.class);
+		binderRegistry.registerBinder(jaxbBinder);
 
 		ViewResolverRegistry viewResolverRegistry = injectionContext.get(ViewResolverRegistry.class);
 		viewResolverRegistry.addResolver(XmlView.class, viewResolver);
@@ -62,11 +62,4 @@ public class ThundrContribXmlModule implements com.threewks.thundr.injection.Mod
 		viewNegotiatorRegistry.addNegotiator(ContentType.ApplicationXml.value(), negotiator);
 	}
 
-	@Override
-	public void start(UpdatableInjectionContext injectionContext) {
-	}
-
-	@Override
-	public void stop(InjectionContext injectionContext) {
-	}
 }

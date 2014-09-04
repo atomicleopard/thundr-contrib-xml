@@ -4,13 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.atomicleopard.thundr.xml.jaxb.Jaxb;
-import com.threewks.thundr.action.method.bind.http.StringParameterBinder;
-import com.threewks.thundr.http.StatusCode;
 import com.threewks.thundr.view.BaseView;
 import com.threewks.thundr.view.ViewResolutionException;
 import com.threewks.thundr.view.ViewResolver;
-
-import jodd.util.StringPool;
 
 /**
  * A {@link ViewResolver} that produces Xml output using JAXB.
